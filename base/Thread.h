@@ -14,7 +14,7 @@
 #include "CountDownLatch.h"
 #include "noncopyable.h"
 
-class Thread {
+class Thread : noncopyable {
 public:
     typedef std::function<void()> ThreadFunc;
 private:
@@ -29,7 +29,7 @@ private:
     void setDefaultName();
 
 public:
-    explicit Thread(const ThreadFunc &, std::string name = "");
+    explicit Thread(const ThreadFunc &, const std::string &name = std::string());
 
     ~Thread();
 

@@ -39,8 +39,8 @@ struct ThreadData {
     pid_t *tid_;
     CountDownLatch *latch_;
 
-    ThreadData(const ThreadFunc &func, string name, pid_t *tid, CountDownLatch *latch) :
-            func_(func), name_(std::move(name)), tid_(tid), latch_(latch) {
+    ThreadData(const ThreadFunc &func, const string &name, pid_t *tid, CountDownLatch *latch) :
+            func_(func), name_(name), tid_(tid), latch_(latch) {
     }
 
     void runInThread() {
@@ -65,8 +65,8 @@ void *startThread(void *obj) {
 }
 
 
-Thread::Thread(const Thread::ThreadFunc &func, string n) :
-        pthreadId_(0), tid_(0), func_(func), name_(std::move(n)), latch_(1), started_(false), joined_(false) {
+Thread::Thread(const Thread::ThreadFunc &func, const string &n) :
+        pthreadId_(0), tid_(0), func_(func), name_(n), latch_(1), started_(false), joined_(false) {
     setDefaultName();
 }
 
@@ -87,7 +87,7 @@ void Thread::setDefaultName() {
 void Thread::start() {
     assert(!started_);
     started_ = true;
-    auto *data = new ThreadData(func_, name_, &tid_, &latch_);
+    ThreadData *data = new ThreadData(func_, name_, &tid_, &latch_);
     if (pthread_create(&pthreadId_, nullptr, &startThread, data)) {
         started_ = false;
         delete data;

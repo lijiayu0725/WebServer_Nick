@@ -19,7 +19,7 @@ private:
     std::unique_ptr<MutexLock> mutex_;
     std::unique_ptr<AppendFile> file_;
 
-    void append_unlocked(const char *logLine, size_t len);
+    void append_unlocked(const char *logLine, int len);
 
 public:
     explicit LogFile(const std::string &baseName, int flushEveryN = 1024);

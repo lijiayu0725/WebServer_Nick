@@ -3,13 +3,14 @@
 //
 
 #include "LogFile.h"
+#include "FileUtil.h"
 
-LogFile::LogFile(const std::string &baseName, int flushEveryN) : baseName_(baseName), flushEveryN_(flushEveryN),
-                                                                 count_(0), mutex_(new MutexLock) {
+LogFile::LogFile(const std::string &baseName, int flushEveryN) :
+        baseName_(baseName), flushEveryN_(flushEveryN), count_(0), mutex_(new MutexLock) {
     file_.reset(new AppendFile(baseName));
 }
 
-void LogFile::append_unlocked(const char *logLine, size_t len) {
+void LogFile::append_unlocked(const char *logLine, int len) {
     file_->append(logLine, len);
     ++count_;
     if (count_ >= flushEveryN_) {

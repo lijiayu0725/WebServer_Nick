@@ -6,7 +6,7 @@
 #include <cstdio>
 #include "FileUtil.h"
 
-AppendFile::AppendFile(const std::string &fileName) : fp_(fopen(fileName.c_str(), "ae")) {
+AppendFile::AppendFile(std::string fileName) : fp_(fopen(fileName.c_str(), "ae")) {
     setbuffer(fp_, buffer_, sizeof(buffer_));
 }
 
@@ -14,7 +14,7 @@ AppendFile::~AppendFile() {
     fclose(fp_);
 }
 
-void AppendFile::append(const char *logLine, size_t len) {
+void AppendFile::append(const char *logLine, const size_t len) {
     size_t n = this->write(logLine, len);
     size_t remain = len - n;
     while (remain > 0) {
@@ -22,7 +22,7 @@ void AppendFile::append(const char *logLine, size_t len) {
         if (x == 0) {
             int err = ferror(fp_);
             if (err) {
-                fprintf(fp_, "AppendFile::append() failed !\n");
+                fprintf(stderr, "AppendFile::append() failed !\n");
             }
             break;
         }
