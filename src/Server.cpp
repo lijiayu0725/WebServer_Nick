@@ -52,7 +52,7 @@ void Server::handNewConn() {
         setSocketNoDelay(accept_fd);
         shared_ptr<HttpData> req_info(new HttpData(loop, accept_fd));
         req_info->getChannel()->setHolder(req_info);
-        loop->queueInLoop(std::bind(&HttpData::newEvent, req_info));
+        loop->runInLoop(std::bind(&HttpData::newEvent, req_info));
     }
     acceptChannel_->setEvents(EPOLLIN | EPOLLET);
 }

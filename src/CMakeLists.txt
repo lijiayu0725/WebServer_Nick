@@ -4,7 +4,7 @@ add_subdirectory(base)
 
 aux_source_directory(./ DIR_SRCS)
 
-add_executable(main ${DIR_SRCS} HttpData.cpp Util.cpp Timer.cpp ThreadPool.cpp EventLoopThread.cpp EventLoopThreadPool.cpp Channel.cpp Epoll.cpp EventLoop.cpp Server.cpp)
+add_executable(main ${DIR_SRCS} HttpData.cpp Util.cpp Timer.cpp EventLoopThread.cpp EventLoopThreadPool.cpp Channel.cpp Epoll.cpp EventLoop.cpp Server.cpp)
 
 target_link_libraries(main base)
 

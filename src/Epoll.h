@@ -38,7 +38,7 @@ public:
 
     void addTimer(std::shared_ptr<Channel> requestData, int timeout); // 向定时器管理器中添加Channel的TimerNode
 
-    int getEpollFd() {
+    int getEpollFd() const {
         return epollFd_;
     }
 

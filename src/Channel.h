@@ -23,8 +23,8 @@ private:
     int fd_; // Channel管理的fd
     uint32_t events_; // 关心的事件
     uint32_t revents_; // 返回的事件
-    uint32_t lastEvents_; //
-    std::weak_ptr<HttpData> holder_; //
+    uint32_t lastEvents_; // 用来判断上一次事件是否与此次事件相同
+    std::weak_ptr<HttpData> holder_; // Channel持有的HttpData对象
     CallBack readHandler_; // 读事件处理函数
     CallBack writeHandler_; // 写事件处理函数
     CallBack errorHandler_; // 错误回调函数

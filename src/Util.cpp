@@ -3,12 +3,12 @@
 //
 
 #include "Util.h"
-#include <errno.h>
+#include <cerrno>
 #include <fcntl.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
-#include <signal.h>
-#include <string.h>
+#include <csignal>
+#include <cstring>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -43,7 +43,8 @@ ssize_t readn(int fd, std::string &inBuffer, bool &returnZero) {
     ssize_t readSum = 0;
     while (true) {
         char buff[MAX_BUFF];
-        if ((nread = read(fd, buff, MAX_BUFF)) < 0) {
+        nread = read(fd, buff, MAX_BUFF);
+        if (nread < 0) {
             if (errno == EINTR)
                 continue;
             else if (errno == EAGAIN)
@@ -160,13 +161,6 @@ void setSocketNoDelay(int fd) {
     setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, &enable, sizeof(enable));
 }
 
-void setSocketNoLinger(int fd) {
-    struct linger linger_;
-    linger_.l_onoff = 1;
-    linger_.l_linger = 30;
-    setsockopt(fd, SOL_SOCKET, SO_LINGER, (const char *) &linger_, sizeof(linger_));
-}
-
 void shutDownWR(int fd) {
     shutdown(fd, SHUT_WR);
 }
@@ -186,7 +180,7 @@ int socketBindListen(int port) {
         return -1;
     }
 
-    // 设置服务器IP和Port，和监听描述副绑定
+    // 设置服务器IP和Port，和监听描述绑定
     struct sockaddr_in server_addr;
     bzero((char *) &server_addr, sizeof(server_addr));
     server_addr.sin_family = AF_INET;

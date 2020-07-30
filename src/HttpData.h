@@ -147,5 +147,4 @@ private:
     AnalysisState analysisRequest();
 };
 
-
 #endif //WEBSERVER_NICK_HTTPDATA_H
